@@ -23,4 +23,30 @@ class AccountsCubit extends Cubit<AccountsState> {
       );
     }
   }
+
+  Future<void> delete(Account account) async {
+    emit(state.copyWith(status: AccountsStatus.loading));
+    try {
+      final List<Account> newAccount = List.from(state.accounts);
+      newAccount.remove(account);
+      emit(
+        state.copyWith(
+            status: AccountsStatus.indexSuccess, accounts: newAccount),
+      );
+    } catch (error) {
+      emit(
+        state.copyWith(
+          status: AccountsStatus.indexFailure,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
+  }
+
+  void setSelectedAccount(Account account) {
+    emit(state.copyWith(
+      status: AccountsStatus.indexSuccess,
+      selectedAccount: account,
+    ));
+  }
 }

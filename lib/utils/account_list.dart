@@ -12,15 +12,10 @@ class AccountList extends StatelessWidget {
         return ListTile(
           title: Text(accounts[index].name),
           onTap: () {},
-          trailing: Row(
-            children: [
-              const Icon(Icons.arrow_forward_ios),
-              IconButton(
-                icon: const Icon(Icons.delete),
-                tooltip: 'Eliminar',
-                onPressed: () {},
-              )
-            ],
+          trailing: IconButton(
+            icon: const Icon(Icons.delete),
+            tooltip: 'Eliminar',
+            onPressed: () {},
           ),
           mouseCursor: SystemMouseCursors.click,
         );

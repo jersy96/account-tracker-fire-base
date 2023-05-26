@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/logic/cubits/account.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/account.dart';
+import 'app_router.dart';
 
 class AccountList extends StatelessWidget {
   final List<Account> accounts;
-  const AccountList({super.key, required this.accounts});
+
+  const AccountList({Key? key, required this.accounts}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -14,12 +17,28 @@ class AccountList extends StatelessWidget {
         return ListTile(
           title: Text(accounts[index].name),
           onTap: () {},
-          trailing: IconButton(
-            icon: const Icon(Icons.delete),
-            tooltip: 'Eliminar',
-            onPressed: () {
-              context.read<AccountsCubit>().delete(accounts[index]);
-            },
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.account_balance),
+                tooltip: 'Ver Detalles de Cuenta ',
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.accountDetails,
+                    arguments: accounts[index],
+                  );
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete),
+                tooltip: 'Eliminar',
+                onPressed: () {
+                  context.read<AccountsCubit>().delete(accounts[index]);
+                },
+              ),
+            ],
           ),
           mouseCursor: SystemMouseCursors.click,
         );

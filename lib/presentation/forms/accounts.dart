@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/cubits/account.dart';
 import '../../logic/states/accounts.dart';
 import '../../utils/app_router.dart';
+import '../../utils/base_text_form_field.dart';
 
 class AccountsForm extends StatefulWidget {
   const AccountsForm({super.key});
@@ -13,52 +14,73 @@ class AccountsForm extends StatefulWidget {
 }
 
 class _AccountsForm extends State<AccountsForm> {
+  bool isUpdating = false;
+  String? id;
   String? name;
-  String? balance;
+  double? balance;
+
+  @override
+  void initState() {
+    super.initState();
+    AccountsCubit accountsCubit = context.read<AccountsCubit>();
+    isUpdating = accountsCubit.state.selectedAccount != null;
+    id = accountsCubit.state.selectedAccount?.id;
+    name = accountsCubit.state.selectedAccount?.name;
+    balance = accountsCubit.state.selectedAccount?.balance;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          TextFormField(
-            decoration: const InputDecoration(
-              hintText: 'Digite el nombre del Banco',
+    return BlocListener<AccountsCubit, AccountsState>(
+      listener: (BuildContext context, AccountsState state) {
+        if (state.status == AccountsStatus.indexSuccess) {
+          Navigator.pushReplacementNamed(context, Routes.indexAccounts);
+        } else if (state.status == AccountsStatus.indexFailure) {
+          const SnackBar snackBar = SnackBar(content: Text('Error'));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ElevatedButton(
+              child: const Text('Volver a mis cuentas'),
+              onPressed: () =>
+                  Navigator.pushReplacementNamed(context, Routes.indexAccounts),
             ),
-            onChanged: (String value) => setState(() => name = value),
-          ),
-          const SizedBox(height: 2.0),
-          TextFormField(
-            decoration: const InputDecoration(
-              hintText: 'Digite el saldo',
+            BaseTextFormField(
+              initialValue: name,
+              decoration: const InputDecoration(
+                hintText: 'Digite el nombre de la cuenta',
+              ),
+              onChanged: (String? value, bool valid) {
+                setState(() => name = valid ? value : null);
+              },
             ),
-            onChanged: (String value) => setState(() => balance = value),
-          ),
-          const SizedBox(height: 16.0),
-          if (_canBuildAccount())
-            BlocConsumer<AccountsCubit, AccountsState>(
-                listener: (BuildContext context, AccountsState state) {
-              if (state.status == AccountsStatus.indexSuccess) {
-                Navigator.pushReplacementNamed(context, Routes.indexAccounts);
-              } else if (state.status == AccountsStatus.indexFailure) {
-                const SnackBar snackBar = SnackBar(content: Text('Error'));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }
-            }, builder: (BuildContext context, AccountsState state) {
-              if (state.status == AccountsStatus.loading) {
-                return const CircularProgressIndicator();
-              } else {
-                return ElevatedButton(
-                  onPressed: () {
-                    Account account = _buildAccount();
-                    context.read<AccountsCubit>().create(account);
-                  },
-                  child: const Text('Submit'),
-                );
-              }
-            }),
-        ],
+            const SizedBox(height: 2.0),
+            BaseTextFormField(
+              initialValue: balance?.toString(),
+              decoration: const InputDecoration(
+                hintText: 'Digite el saldo',
+              ),
+              validator: (String? value) {
+                if (value == null || value.isEmpty) return 'Digite un saldo';
+                try {
+                  double.parse(value);
+                  return null;
+                } catch (error) {
+                  return "Digite un saldo numerico";
+                }
+              },
+              onChanged: (String? value, bool valid) {
+                setState(() => balance = valid ? double.parse(value!) : null);
+              },
+            ),
+            const SizedBox(height: 16.0),
+            if (_canBuildAccount()) _buildSubmitButton(),
+          ],
+        ),
       ),
     );
   }
@@ -67,8 +89,28 @@ class _AccountsForm extends State<AccountsForm> {
     return (name != null && balance != null);
   }
 
+  Widget _buildSubmitButton() {
+    AccountsStatus status = context.watch<AccountsCubit>().state.status;
+    if (status == AccountsStatus.loading) {
+      return const CircularProgressIndicator();
+    } else {
+      return ElevatedButton(
+        onPressed: () {
+          Account account = _buildAccount();
+          if (isUpdating) {
+            context.read<AccountsCubit>().update(account);
+          } else {
+            context.read<AccountsCubit>().create(account);
+          }
+        },
+        child: const Text('Submit'),
+      );
+    }
+  }
+
   Account _buildAccount() {
     return Account(
+      id: id,
       name: name!,
       balance: balance!,
     );

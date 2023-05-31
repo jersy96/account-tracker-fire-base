@@ -24,10 +24,12 @@ class AccountList extends StatelessWidget {
                 icon: const Icon(Icons.account_balance),
                 tooltip: 'Ver Detalles de Cuenta ',
                 onPressed: () {
-                  Navigator.pushNamed(
+                  context
+                      .read<AccountsCubit>()
+                      .setSelectedAccount(accounts[index]);
+                  Navigator.pushReplacementNamed(
                     context,
                     Routes.accountDetails,
-                    arguments: accounts[index],
                   );
                 },
               ),

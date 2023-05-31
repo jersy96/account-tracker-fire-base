@@ -18,6 +18,7 @@ class AccountsIndexScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
+                context.read<AccountsCubit>().setSelectedAccount(null);
                 Navigator.pushReplacementNamed(context, Routes.createAccount);
               },
               child: const Text('Crear cuenta'),

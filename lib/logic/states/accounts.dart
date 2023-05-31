@@ -8,12 +8,14 @@ enum AccountsStatus {
 }
 
 class AccountsState {
+  int idCount = 3;
   final AccountsStatus status;
   final List<Account> accounts;
   final String? errorMessage;
   final Account? selectedAccount;
 
   AccountsState({
+    required this.idCount,
     required this.status,
     required this.accounts,
     this.errorMessage,
@@ -25,18 +27,23 @@ class AccountsState {
     List<Account>? accounts,
     String? errorMessage,
     Account? selectedAccount,
+    int? idCount,
   }) {
     return AccountsState(
+      idCount: idCount ?? this.idCount,
       status: status ?? this.status,
       accounts: accounts ?? this.accounts,
-      selectedAccount: selectedAccount ?? this.selectedAccount,
+      selectedAccount: selectedAccount,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
   AccountsState.initial()
       : status = AccountsStatus.initial,
-        accounts = [],
+        accounts = [
+          Account(id: '1', name: 'bancolombia', balance: 100),
+          Account(id: '2', name: 'davivienda', balance: 200),
+        ],
         errorMessage = null,
         selectedAccount = null;
 }

@@ -1,11 +1,13 @@
 class Account {
-  String? balance;
+  String? id;
   String name;
+  double? balance;
 
-  Account({required this.name, required this.balance});
+  Account({this.id, required this.name, required this.balance});
 
   factory Account.fromMap(Map<String, dynamic> map) {
     return Account(
+      id: map['id'],
       name: map['name'],
       balance: map['balance'],
     );
@@ -13,6 +15,7 @@ class Account {
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
+      'id': id,
       'name': name,
       'balance': balance,
     };

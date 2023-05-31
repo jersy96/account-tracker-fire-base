@@ -8,11 +8,36 @@ class AccountsCubit extends Cubit<AccountsState> {
   Future<void> create(Account account) async {
     emit(state.copyWith(status: AccountsStatus.loading));
     try {
-      final List<Account> newAccount = List.from(state.accounts);
-      newAccount.add(account);
+      final List<Account> newAccounts = List.from(state.accounts);
+      account.id = state.idCount.toString();
+      newAccounts.add(account);
       emit(
         state.copyWith(
-            status: AccountsStatus.indexSuccess, accounts: newAccount),
+          status: AccountsStatus.indexSuccess,
+          accounts: newAccounts,
+          idCount: state.idCount + 1,
+        ),
+      );
+    } catch (error) {
+      emit(
+        state.copyWith(
+          status: AccountsStatus.indexFailure,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> update(Account account) async {
+    emit(state.copyWith(status: AccountsStatus.loading));
+    try {
+      final List<Account> newAccounts = state.accounts.map((Account acc) {
+        if (account.id == acc.id) return account;
+        return acc;
+      }).toList();
+      emit(
+        state.copyWith(
+            status: AccountsStatus.indexSuccess, accounts: newAccounts),
       );
     } catch (error) {
       emit(
@@ -43,9 +68,8 @@ class AccountsCubit extends Cubit<AccountsState> {
     }
   }
 
-  void setSelectedAccount(Account account) {
+  void setSelectedAccount(Account? account) {
     emit(state.copyWith(
-      status: AccountsStatus.indexSuccess,
       selectedAccount: account,
     ));
   }

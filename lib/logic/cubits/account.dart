@@ -1,6 +1,7 @@
 import 'package:flutter_application_3/models/account.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../models/transaction.dart';
 import '../states/accounts.dart';
 
 class AccountsCubit extends Cubit<AccountsState> {
@@ -72,5 +73,39 @@ class AccountsCubit extends Cubit<AccountsState> {
     emit(state.copyWith(
       selectedAccount: account,
     ));
+  }
+
+  void setSelectedTransaction(Transaction transaction) {
+    emit(state.copyWith(
+      selectedTransaction: transaction,
+    ));
+  }
+
+  Future<void> deleteTransaction(Transaction transaction) async {
+    emit(state.copyWith(status: AccountsStatus.loading));
+    try {
+      List<Account> accounts = List.from(state.accounts);
+      Account newSelectedAccount = state.selectedAccount!;
+      for (Account account in accounts) {
+        if (account == state.selectedAccount) {
+          account.removeTransaction(transaction);
+          newSelectedAccount = account;
+        }
+      }
+      emit(
+        state.copyWith(
+          status: AccountsStatus.indexSuccess,
+          accounts: accounts,
+          selectedAccount: newSelectedAccount,
+        ),
+      );
+    } catch (error) {
+      emit(
+        state.copyWith(
+          status: AccountsStatus.indexFailure,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
   }
 }

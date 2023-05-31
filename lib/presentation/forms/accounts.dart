@@ -49,6 +49,11 @@ class _AccountsForm extends State<AccountsForm> {
               onPressed: () =>
                   Navigator.pushReplacementNamed(context, Routes.indexAccounts),
             ),
+            ElevatedButton(
+              child: const Text('Ver movimientos'),
+              onPressed: () => Navigator.pushReplacementNamed(
+                  context, Routes.indexTransactions),
+            ),
             BaseTextFormField(
               initialValue: name,
               decoration: const InputDecoration(

@@ -1,5 +1,7 @@
 import 'package:flutter_application_3/models/account.dart';
 
+import '../../models/transaction.dart';
+
 enum AccountsStatus {
   initial,
   loading,
@@ -13,28 +15,32 @@ class AccountsState {
   final List<Account> accounts;
   final String? errorMessage;
   final Account? selectedAccount;
+  final Transaction? selectedTransaction;
 
   AccountsState({
     required this.idCount,
     required this.status,
     required this.accounts,
     this.errorMessage,
-    required this.selectedAccount,
+    this.selectedAccount,
+    this.selectedTransaction,
   });
 
   AccountsState copyWith({
+    int? idCount,
     AccountsStatus? status,
     List<Account>? accounts,
     String? errorMessage,
     Account? selectedAccount,
-    int? idCount,
+    Transaction? selectedTransaction,
   }) {
     return AccountsState(
       idCount: idCount ?? this.idCount,
       status: status ?? this.status,
       accounts: accounts ?? this.accounts,
-      selectedAccount: selectedAccount,
+      selectedAccount: selectedAccount ?? this.selectedAccount,
       errorMessage: errorMessage ?? this.errorMessage,
+      selectedTransaction: selectedTransaction ?? this.selectedTransaction,
     );
   }
 
@@ -45,5 +51,6 @@ class AccountsState {
           Account(id: '2', name: 'davivienda', balance: 200),
         ],
         errorMessage = null,
-        selectedAccount = null;
+        selectedAccount = null,
+        selectedTransaction = null;
 }

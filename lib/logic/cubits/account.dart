@@ -14,7 +14,7 @@ class AccountsCubit extends Cubit<AccountsState> {
       newAccounts.add(account);
       emit(
         state.copyWith(
-          status: AccountsStatus.indexSuccess,
+          status: AccountsStatus.createSuccess,
           accounts: newAccounts,
           idCount: state.idCount + 1,
         ),
@@ -22,7 +22,7 @@ class AccountsCubit extends Cubit<AccountsState> {
     } catch (error) {
       emit(
         state.copyWith(
-          status: AccountsStatus.indexFailure,
+          status: AccountsStatus.createFailure,
           errorMessage: error.toString(),
         ),
       );
@@ -38,12 +38,12 @@ class AccountsCubit extends Cubit<AccountsState> {
       }).toList();
       emit(
         state.copyWith(
-            status: AccountsStatus.indexSuccess, accounts: newAccounts),
+            status: AccountsStatus.updateSuccess, accounts: newAccounts),
       );
     } catch (error) {
       emit(
         state.copyWith(
-          status: AccountsStatus.indexFailure,
+          status: AccountsStatus.updateFailure,
           errorMessage: error.toString(),
         ),
       );
@@ -57,12 +57,12 @@ class AccountsCubit extends Cubit<AccountsState> {
       newAccount.remove(account);
       emit(
         state.copyWith(
-            status: AccountsStatus.indexSuccess, accounts: newAccount),
+            status: AccountsStatus.deleteSuccess, accounts: newAccount),
       );
     } catch (error) {
       emit(
         state.copyWith(
-          status: AccountsStatus.indexFailure,
+          status: AccountsStatus.deleteFailure,
           errorMessage: error.toString(),
         ),
       );
@@ -75,10 +75,68 @@ class AccountsCubit extends Cubit<AccountsState> {
     ));
   }
 
-  void setSelectedTransaction(Transaction transaction) {
+  void setSelectedTransaction(Transaction? transaction) {
     emit(state.copyWith(
       selectedTransaction: transaction,
     ));
+  }
+
+  Future<void> createTransaction(Transaction transaction) async {
+    try {
+      emit(state.copyWith(status: AccountsStatus.loading));
+      List<Account> accounts = List.from(state.accounts);
+      Account newSelectedAccount = state.selectedAccount!;
+      for (Account account in accounts) {
+        if (account == state.selectedAccount) {
+          transaction.id = state.transactionsIdCount.toString();
+          account.addTransaction(transaction);
+          newSelectedAccount = account;
+        }
+      }
+      emit(
+        state.copyWith(
+          status: AccountsStatus.createTransactionSuccess,
+          accounts: accounts,
+          selectedAccount: newSelectedAccount,
+          transactionsIdCount: state.transactionsIdCount + 1,
+        ),
+      );
+    } catch (error) {
+      emit(
+        state.copyWith(
+          status: AccountsStatus.createTransactionFailure,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> updateTransaction(Transaction transaction) async {
+    emit(state.copyWith(status: AccountsStatus.loading));
+    try {
+      List<Account> accounts = List.from(state.accounts);
+      Account newSelectedAccount = state.selectedAccount!;
+      for (Account account in accounts) {
+        if (account == state.selectedAccount) {
+          account.updateTransaction(transaction);
+          newSelectedAccount = account;
+        }
+      }
+      emit(
+        state.copyWith(
+          status: AccountsStatus.createTransactionSuccess,
+          accounts: accounts,
+          selectedAccount: newSelectedAccount,
+        ),
+      );
+    } catch (error) {
+      emit(
+        state.copyWith(
+          status: AccountsStatus.createTransactionFailure,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
   }
 
   Future<void> deleteTransaction(Transaction transaction) async {
@@ -94,7 +152,7 @@ class AccountsCubit extends Cubit<AccountsState> {
       }
       emit(
         state.copyWith(
-          status: AccountsStatus.indexSuccess,
+          status: AccountsStatus.deleteTransactionSuccess,
           accounts: accounts,
           selectedAccount: newSelectedAccount,
         ),
@@ -102,7 +160,7 @@ class AccountsCubit extends Cubit<AccountsState> {
     } catch (error) {
       emit(
         state.copyWith(
-          status: AccountsStatus.indexFailure,
+          status: AccountsStatus.deleteTransactionFailure,
           errorMessage: error.toString(),
         ),
       );

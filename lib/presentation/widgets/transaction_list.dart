@@ -30,7 +30,7 @@ class TransactionList extends StatelessWidget {
                       .setSelectedTransaction(transactions[index]);
                   Navigator.pushReplacementNamed(
                     context,
-                    Routes.accountDetails,
+                    Routes.upsertTransactions,
                   );
                 },
               ),

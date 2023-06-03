@@ -5,12 +5,23 @@ import '../../models/transaction.dart';
 enum AccountsStatus {
   initial,
   loading,
-  indexSuccess,
-  indexFailure,
+  createSuccess,
+  createFailure,
+  updateSuccess,
+  updateFailure,
+  deleteSuccess,
+  deleteFailure,
+  createTransactionSuccess,
+  createTransactionFailure,
+  updateTransactionSuccess,
+  updateTransactionFailure,
+  deleteTransactionSuccess,
+  deleteTransactionFailure,
 }
 
 class AccountsState {
-  int idCount = 3;
+  final int idCount;
+  final int transactionsIdCount;
   final AccountsStatus status;
   final List<Account> accounts;
   final String? errorMessage;
@@ -19,6 +30,7 @@ class AccountsState {
 
   AccountsState({
     required this.idCount,
+    required this.transactionsIdCount,
     required this.status,
     required this.accounts,
     this.errorMessage,
@@ -28,6 +40,7 @@ class AccountsState {
 
   AccountsState copyWith({
     int? idCount,
+    int? transactionsIdCount,
     AccountsStatus? status,
     List<Account>? accounts,
     String? errorMessage,
@@ -36,6 +49,7 @@ class AccountsState {
   }) {
     return AccountsState(
       idCount: idCount ?? this.idCount,
+      transactionsIdCount: transactionsIdCount ?? this.transactionsIdCount,
       status: status ?? this.status,
       accounts: accounts ?? this.accounts,
       selectedAccount: selectedAccount ?? this.selectedAccount,
@@ -52,5 +66,7 @@ class AccountsState {
         ],
         errorMessage = null,
         selectedAccount = null,
-        selectedTransaction = null;
+        selectedTransaction = null,
+        idCount = 3,
+        transactionsIdCount = 1;
 }

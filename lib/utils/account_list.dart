@@ -29,7 +29,7 @@ class AccountList extends StatelessWidget {
                       .setSelectedAccount(accounts[index]);
                   Navigator.pushReplacementNamed(
                     context,
-                    Routes.accountDetails,
+                    Routes.upsertAccounts,
                   );
                 },
               ),

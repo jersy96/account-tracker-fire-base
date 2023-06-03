@@ -5,14 +5,13 @@ class Account extends Equatable {
   String? id;
   String name;
   double? balance;
-  List<Transaction> transactions;
+  final List<Transaction> transactions;
 
   Account({
     this.id,
     required this.name,
     required this.balance,
-    this.transactions = const [],
-  });
+  }) : transactions = [];
 
   factory Account.fromMap(Map<String, dynamic> map) {
     return Account(
@@ -23,16 +22,26 @@ class Account extends Equatable {
   }
 
   Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = {
+    return {
       'id': id,
       'name': name,
       'balance': balance,
     };
-    return map;
+  }
+
+  void addTransaction(Transaction transaction) {
+    transactions.add(transaction);
+  }
+
+  void updateTransaction(Transaction transaction) {
+    final index = transactions.indexWhere((t) => t.id == transaction.id);
+    if (index != -1) {
+      transactions[index] = transaction;
+    }
   }
 
   void removeTransaction(Transaction transaction) {
-    transactions.remove(transaction);
+    transactions.removeWhere((t) => t.id == transaction.id);
   }
 
   @override

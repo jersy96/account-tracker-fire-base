@@ -17,9 +17,16 @@ class TransactionsIndexScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                context.read<AccountsCubit>().setSelectedAccount(null);
+                context.read<AccountsCubit>().setSelectedTransaction(null);
+                Navigator.pushReplacementNamed(context, Routes.upsertAccounts);
+              },
+              child: const Text('Volver a cuenta seleccionada'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.read<AccountsCubit>().setSelectedTransaction(null);
                 Navigator.pushReplacementNamed(
-                    context, Routes.createTransaction);
+                    context, Routes.upsertTransactions);
               },
               child: const Text('Crear movimiento'),
             ),

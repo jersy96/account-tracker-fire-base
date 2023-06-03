@@ -7,9 +7,9 @@ enum TransactionType {
 
 class Transaction extends Equatable {
   String? id;
-  TransactionType type;
-  double value;
-  String description;
+  final TransactionType type;
+  final double value;
+  final String description;
 
   Transaction({
     this.id,

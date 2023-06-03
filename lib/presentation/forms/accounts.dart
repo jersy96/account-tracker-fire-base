@@ -33,9 +33,11 @@ class _AccountsForm extends State<AccountsForm> {
   Widget build(BuildContext context) {
     return BlocListener<AccountsCubit, AccountsState>(
       listener: (BuildContext context, AccountsState state) {
-        if (state.status == AccountsStatus.indexSuccess) {
+        if (state.status == AccountsStatus.createSuccess ||
+            state.status == AccountsStatus.updateSuccess) {
           Navigator.pushReplacementNamed(context, Routes.indexAccounts);
-        } else if (state.status == AccountsStatus.indexFailure) {
+        } else if (state.status == AccountsStatus.createFailure ||
+            state.status == AccountsStatus.updateFailure) {
           const SnackBar snackBar = SnackBar(content: Text('Error'));
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
@@ -49,11 +51,12 @@ class _AccountsForm extends State<AccountsForm> {
               onPressed: () =>
                   Navigator.pushReplacementNamed(context, Routes.indexAccounts),
             ),
-            ElevatedButton(
-              child: const Text('Ver movimientos'),
-              onPressed: () => Navigator.pushReplacementNamed(
-                  context, Routes.indexTransactions),
-            ),
+            if (isUpdating)
+              ElevatedButton(
+                child: const Text('Ver movimientos'),
+                onPressed: () => Navigator.pushReplacementNamed(
+                    context, Routes.indexTransactions),
+              ),
             BaseTextFormField(
               initialValue: name,
               decoration: const InputDecoration(

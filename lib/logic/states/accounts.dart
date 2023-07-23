@@ -1,6 +1,6 @@
-import 'package:flutter_application_3/models/account.dart';
+import 'package:flutter_application_3/data/models/account.dart';
 
-import '../../models/transaction.dart';
+import '../../data/models/transaction.dart';
 
 enum AccountsStatus {
   initial,

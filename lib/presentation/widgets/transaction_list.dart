@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/logic/cubits/account.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../models/transaction.dart';
+import '../../data/models/transaction.dart';
 import '../../utils/app_router.dart';
 
 class TransactionList extends StatelessWidget {

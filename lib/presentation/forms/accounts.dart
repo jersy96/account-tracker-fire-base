@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/models/account.dart';
+import 'package:flutter_application_3/data/models/account.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/cubits/account.dart';
 import '../../logic/states/accounts.dart';

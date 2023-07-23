@@ -1,4 +1,4 @@
-import 'package:flutter_application_3/models/transaction.dart';
+import 'package:flutter_application_3/data/models/transaction.dart';
 import 'package:equatable/equatable.dart';
 
 class Account extends Equatable {

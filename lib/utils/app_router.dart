@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/logic/cubits/account.dart';
+import 'package:flutter_application_3/presentation/screens/registration_page.dart';
+import 'package:flutter_application_3/presentation/screens/test_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../presentation/screens/accounts_form.dart';
 import '../presentation/screens/accounts_index.dart';
@@ -50,7 +52,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider<AccountsCubit>.value(
             value: _accountsCubit,
-            child: const AccountsIndexScreen(),
+            child: RegistrationPage(),
+            // child: const AccountsIndexScreen(),
           ),
         );
     }

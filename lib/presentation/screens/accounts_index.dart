@@ -13,28 +13,34 @@ class AccountsIndexScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Layout(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                context.read<AccountsCubit>().setSelectedAccount(null);
-                Navigator.pushReplacementNamed(context, Routes.upsertAccounts);
-              },
-              child: const Text('Crear cuenta'),
-            ),
-            BlocBuilder<AccountsCubit, AccountsState>(
-              builder: (BuildContext context, AccountsState state) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: AccountList(
-                    accounts: state.accounts,
-                  ),
-                );
-              },
-            )
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 35,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.read<AccountsCubit>().setSelectedAccount(null);
+                  Navigator.pushReplacementNamed(
+                      context, Routes.upsertAccounts);
+                },
+                child: const Text('Crear cuenta'),
+              ),
+              BlocBuilder<AccountsCubit, AccountsState>(
+                builder: (BuildContext context, AccountsState state) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: AccountList(
+                      accounts: state.accounts,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

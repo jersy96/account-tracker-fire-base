@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/cubits/account.dart';
 import '../../logic/states/accounts.dart';
-import '../../models/transaction.dart';
+import '../../data/models/transaction.dart';
 import '../../utils/app_router.dart';
 import '../../utils/base_text_form_field.dart';
 import '../utils/base_dropdown_form_field.dart';

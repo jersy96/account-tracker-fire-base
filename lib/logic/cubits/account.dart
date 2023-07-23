@@ -1,7 +1,7 @@
-import 'package:flutter_application_3/models/account.dart';
+import 'package:flutter_application_3/data/models/account.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../models/transaction.dart';
+import '../../data/models/transaction.dart';
 import '../states/accounts.dart';
 
 class AccountsCubit extends Cubit<AccountsState> {

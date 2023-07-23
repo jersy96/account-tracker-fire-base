@@ -12,6 +12,14 @@ Future<List> fetchUsers() async {
 }
 
 // POST
+// Future<void> createUser(User user) async {
+//   final docUser = FirebaseFirestore.instance.collection('users').doc();
+//   final rawUser = user.toMap();
+//   await docUser.set(rawUser);
+//   // await await db.collection('users').add({'user': user});
+// }
+
 Future<void> createUser(User user) async {
-  await db.collection('users').add({'user': user});
+  CollectionReference collectionReference = db.collection('users');
+  await collectionReference.add(user.toMap());
 }

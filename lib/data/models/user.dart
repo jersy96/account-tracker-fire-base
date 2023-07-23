@@ -1,31 +1,32 @@
-class User {
-  String? id;
-  String name;
-  String email;
-  // String phoneNumber;
+import 'package:equatable/equatable.dart';
 
-  User({
-    this.id,
-    required this.name,
-    required this.email,
-    // required this.phoneNumber,
-  });
+class User extends Equatable {
+  final String id;
+  final String name;
+  final String lastName;
+  final int age;
 
-  static User fromMap(Map<String, dynamic> userData) {
-    return User(
-      id: userData['id'].toString(),
-      name: userData['fullname'],
-      // phoneNumber: userData['phone'],
-      email: userData['email'],
-    ); //.cast<Uint8List>());
-  }
+  final String? image;
 
-  Map<String, dynamic> toMap() {
-    return {
+  const User(this.id, this.name, this.lastName, this.age, {this.image});
+
+  @override
+  List<Object?> get props => [id];
+
+  Map<String, Object?> toFirebaseMap({String? newImage}) {
+    return <String, Object?>{
       'id': id,
-      'fullname': name,
-      // 'phone': phoneNumber,
-      'email': email,
+      'name': name,
+      'lastName': lastName,
+      'age': age,
+      'image': newImage ?? image,
     };
   }
+
+  User.fromFirebaseMap(Map<String, Object?> data)
+      : id = data['id'] as String,
+        name = data['name'] as String,
+        lastName = data['lastName'] as String,
+        age = data['age'] as int,
+        image = data['image'] as String?;
 }

@@ -79,9 +79,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
   User _buildUser() {
     return User(
-      name: name!,
-      email: email!,
-    );
+        // last: name!,
+        // email: email!,
+        );
   }
 
   void _submitForm() {

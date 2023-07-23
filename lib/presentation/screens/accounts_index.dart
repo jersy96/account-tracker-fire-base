@@ -17,9 +17,6 @@ class AccountsIndexScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 35,
-              ),
               ElevatedButton(
                 onPressed: () {
                   context.read<AccountsCubit>().setSelectedAccount(null);

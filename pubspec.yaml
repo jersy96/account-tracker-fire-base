@@ -13,10 +13,9 @@ dependencies:
   equatable: ^2.0.5
 
   #- DEPENDENDIES OF FIREBASE
-  #- firebase core: sirve para conectarse con el proyecto en general 
   firebase_core: ^2.15.0
-  # - es la base de datos
   cloud_firestore: ^4.8.3
+  firebase_auth: ^4.7.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0

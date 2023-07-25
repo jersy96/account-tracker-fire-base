@@ -6,6 +6,7 @@ import 'package:flutter_application_3/utils/password_form_field.dart';
 
 import '../data/models/user.dart';
 import 'app_router.dart';
+import 'phone_number_field.dart';
 
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class RegistrationForm extends StatefulWidget {
 class _RegistrationFormState extends State<RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
   String? name;
+  String? phoneNumber;
   String? email;
   String? password;
   String? confirmPassword;
@@ -39,6 +41,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
               EmailFormField(
                 onChange: (String? value, bool valid) {
                   setState(() => email = valid ? value : null);
+                },
+              ),
+              const SizedBox(height: 20),
+              PhoneFormField(
+                onFieldSubmitted: (_) => _submitForm(),
+                onChange: (String? value, bool valid) {
+                  setState(() => phoneNumber = valid ? value : null);
                 },
               ),
               const SizedBox(height: 20),
@@ -72,7 +81,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   _submitForm(),
                   Navigator.pushReplacementNamed(context, Routes.indexAccounts),
                 },
-            child: const Text('Enviar Email'))
+            child: const Text('Enviar Usuario'))
       ],
     );
   }
@@ -81,6 +90,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
     return User(
       name: name!,
       email: email!,
+      phoneNumber: phoneNumber!,
+      password: password!,
     );
   }
 

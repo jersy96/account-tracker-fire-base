@@ -5,13 +5,13 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 // GET
 Future<List> fetchUsers() async {
   List users = [];
-  CollectionReference collectionReference = db.collection('users');
+  CollectionReference collectionReference = db.collection('Users');
   QuerySnapshot queryUsers = await collectionReference.get();
   queryUsers.docs.forEach((document) => users.add(document.data()));
   return users;
 }
 
-// POST
 Future<void> createUser(User user) async {
-  await db.collection('users').add({'user': user});
+  CollectionReference collectionReference = db.collection('Users');
+  await collectionReference.add(user.toMap());
 }

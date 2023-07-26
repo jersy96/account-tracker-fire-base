@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/utils/layout.dart';
-import 'package:flutter_application_3/utils/registration_form.dart';
+import 'package:flutter_application_3/presentation/forms/registration_form.dart';
 
-class RegistrationPage extends StatelessWidget {
-  const RegistrationPage({super.key});
+class RegistrationScreen extends StatelessWidget {
+  const RegistrationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

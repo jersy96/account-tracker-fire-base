@@ -21,5 +21,5 @@ Future<List> fetchUsers() async {
 
 Future<void> createUser(User user) async {
   CollectionReference collectionReference = db.collection('users');
-  await collectionReference.add(user.toMap());
+  await collectionReference.add(user.toFirebaseMap());
 }

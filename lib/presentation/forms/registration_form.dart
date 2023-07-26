@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/logic/services/firebase_service.dart';
-import 'package:flutter_application_3/utils/email_text_form_field.dart';
-import 'package:flutter_application_3/utils/name_form_field.dart';
-import 'package:flutter_application_3/utils/password_form_field.dart';
+import 'package:flutter_application_3/presentation/utils/email_text_form_field.dart';
+import 'package:flutter_application_3/presentation/utils/name_form_field.dart';
+import 'package:flutter_application_3/presentation/utils/password_form_field.dart';
 
-import '../data/models/user.dart';
-import 'app_router.dart';
+import '../../data/models/user.dart';
+import '../../utils/app_router.dart';
 
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({Key? key}) : super(key: key);
@@ -77,15 +77,15 @@ class _RegistrationFormState extends State<RegistrationForm> {
     );
   }
 
-  User _buildUser() {
-    return User(
-        // last: name!,
-        // email: email!,
-        );
-  }
+  // User _buildUser() {
+  //   return User(
+  //       // last: name!,
+  //       // email: email!,
+  //       );
+  // }
 
   void _submitForm() {
-    User user = _buildUser();
-    createUser(user);
+    // User user = _buildUser();
+    // createUser(user);
   }
 }

@@ -31,7 +31,9 @@ class _TestScreenState extends State<TestScreen> {
                 },
               );
             } else {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
           },
         ),

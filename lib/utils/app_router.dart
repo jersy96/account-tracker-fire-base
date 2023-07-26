@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/logic/cubits/account.dart';
+import 'package:flutter_application_3/presentation/screens/login_screen.dart';
 import 'package:flutter_application_3/presentation/screens/registration_page.dart';
 import 'package:flutter_application_3/presentation/screens/test_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +14,8 @@ class Routes {
   static const String upsertAccounts = 'upsertAccounts';
   static const String indexTransactions = 'indexTransactions';
   static const String upsertTransactions = 'upsertTransactions';
+  static const String loginScreen = 'loginScreen';
+  static const String registrationScreen = 'registrationScreen';
 }
 
 class AppRouter {
@@ -48,11 +51,25 @@ class AppRouter {
             child: const TransactionsFormScreen(),
           ),
         );
+      case Routes.loginScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<AccountsCubit>.value(
+            value: _accountsCubit,
+            child: const LoginScreen(),
+          ),
+        );
+      case Routes.registrationScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<AccountsCubit>.value(
+            value: _accountsCubit,
+            child: const RegistrationScreen(),
+          ),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => BlocProvider<AccountsCubit>.value(
             value: _accountsCubit,
-            child: RegistrationPage(),
+            child: LoginScreen(),
             // child: const AccountsIndexScreen(),
           ),
         );

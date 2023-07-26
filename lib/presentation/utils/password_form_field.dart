@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'base_text_form_field.dart';
+import '../../utils/base_text_form_field.dart';
 
 class PasswordFormField extends StatefulWidget {
   final void Function(String? value, bool valid) onChange;
